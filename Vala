@@ -1,0 +1,68 @@
+public class DecreasingHeapSort {
+    
+    private static void heapify(int[] arr, int n, int i) {
+        // Initialize smallest as root
+        int smallest = i;
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        
+        // If left child is smaller than root
+        if (left < n && arr[left] < arr[smallest])
+            smallest = left;
+            
+        // If right child is smaller than smallest so far
+        if (right < n && arr[right] < arr[smallest])
+            smallest = right;
+            
+        // If smallest is not root
+        if (smallest != i) {
+            // Swap
+            int temp = arr[i];
+            arr[i] = arr[smallest];
+            arr[smallest] = temp;
+            
+            // Recursively heapify the affected sub-tree
+            heapify(arr, n, smallest);
+        }
+    }
+    
+    // Main function to do heap sort in decreasing order
+    public static void sort(int[] arr) {
+        int n = arr.length;
+        
+        // Build min heap (rearrange array)
+        for (int i = n / 2 - 1; i >= 0; i--)
+            heapify(arr, n, i);
+            
+        // One by one extract an element from heap
+        for (int i = n - 1; i > 0; i--) {
+            // Move current root to end
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+            
+            // Call min heapify on the reduced heap
+            heapify(arr, i, 0);
+        }
+    }
+    
+    public static void printArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++)
+            stdout.printf("%d ", arr[i]);
+        stdout.printf("\n");
+    }
+    
+    public static int main(string[] args) {
+        int[] arr = {12, 11, 13, 5, 6, 7};
+        
+        stdout.printf("Original array:\n");
+        printArray(arr);
+        
+        sort(arr);
+        
+        stdout.printf("Sorted array in decreasing order:\n");
+        printArray(arr);
+        
+        return 0;
+    }
+}
